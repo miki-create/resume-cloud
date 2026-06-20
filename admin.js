@@ -105,9 +105,13 @@ async function loadAdminResumes() {
     status.innerHTML = `<strong>Access granted.</strong> Showing ${resumes.length} saved resume${resumes.length === 1 ? '' : 's'}.`;
   } catch (error) {
     const denied = error.code === 'permission-denied';
+    const currentUser = firebase.auth().currentUser;
+    const currentEmail = currentUser && currentUser.email ? currentUser.email : 'unknown';
+
     status.innerHTML = denied
-      ? '<strong>Access denied.</strong> You must sign in with an admin account to view all resumes.'
+      ? `<strong>Access denied.</strong> Signed in as <strong>${escapeHtml(currentEmail)}</strong>. You must sign in with the admin account (${escapeHtml(ADMIN_EMAIL)}).`
       : `Unable to load resumes: ${escapeHtml(error.message)}`;
+
     document.getElementById('resumeList').innerHTML = '<tr><td colspan="6" class="empty-state">Unable to load resume list.</td></tr>';
   }
 }
@@ -134,10 +138,15 @@ function initAdminDashboard() {
       setTimeout(() => { window.location.href = 'auth.html'; }, 700);
       return;
     }
-    if (user.email !== ADMIN_EMAIL) {
+
+    const userEmail = user.email ? user.email.toLowerCase() : '';
+    const adminEmail = ADMIN_EMAIL.toLowerCase();
+
+    if (userEmail !== adminEmail) {
       showUnauthorized(user);
       return;
     }
+
     status.innerHTML = `Signed in as <strong>${escapeHtml(user.email)}</strong>. Admin access granted.`;
     loadAdminResumes();
   }
