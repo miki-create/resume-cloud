@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Resume.Maker</title>
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --text: #e2e8f0;
+            --surface: rgba(255,255,255,0.06);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { min-height: 100vh; background: #070b14; color: var(--text); padding: 28px; }
+        .page { max-width: 1100px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 26px; }
+        .header-title { font-size: 2rem; font-weight: 800; }
+        .subtext { color: #94a3b8; margin-top: 6px; }
+        .toolbar { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn { padding: 12px 20px; border-radius: 14px; border: none; cursor: pointer; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #09090b; }
+        .btn-muted { background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid rgba(255,255,255,0.14); }
+        .status { padding: 18px 20px; border-radius: 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); margin-bottom: 24px; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 22px; padding: 24px; }
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 860px; }
+        th, td { padding: 16px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        th { color: #94a3b8; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; }
+        td { font-size: 0.95rem; color: var(--text); }
+        .empty-state { text-align: center; padding: 48px 0; color: #94a3b8; }
+        .back-link { color: #a5b4fc; text-decoration: none; }
+        .back-link:hover { color: #fff; }
+        @media (max-width: 840px) { .header { flex-direction: column; align-items: flex-start; } }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div>
+                <div class="header-title">Admin Dashboard</div>
+                <div class="subtext">View every saved user resume from Firestore.</div>
+            </div>
+            <div class="toolbar">
+                <a class="back-link" href="index.html">← Back to Platform</a>
+                <button type="button" class="btn btn-muted" id="signOutBtn" onclick="signOutUser()">Sign Out</button>
+            </div>
+        </div>
+
+        <div class="status" id="adminStatus">Checking admin access...</div>
+
+        <div class="card">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User Email</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Last Updated</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resumeList">
+                        <tr><td colspan="6" class="empty-state">Loading resumes...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

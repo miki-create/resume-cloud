@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace | Resume.Maker</title>
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #f093fb;
+            --dark: #09090b;
+            --glass: rgba(255, 255, 255, 0.96);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #0f172a;
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 25px;
+            position: relative;
+        }
+
+        /* ORB ANIMATION BACKGROUND (Dikekalkan untuk konsistensi reka bentuk) */
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #0f172a, #09090b);
+        }
+        .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.25; animation: move 20s infinite alternate; }
+        .orb-1 { width: 500px; height: 500px; background: var(--primary); top: -200px; right: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: var(--accent); bottom: -100px; left: -100px; }
+
+        @keyframes move { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 50px); } }
+
+        .wrapper { max-width: 1200px; margin: 0 auto; }
+
+        .btn-back {
+            display: inline-block;
+            color: #a1a1aa;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            transition: 0.3s;
+        }
+        .btn-back:hover { color: var(--primary); }
+
+        .auth-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            margin-bottom: 25px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .auth-banner button {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .auth-banner button:hover { background: rgba(255,255,255,0.1); }
+
+        /* MAKER GRID LAYOUT */
+        .glass-card {
+            background: var(--glass);
+            border-radius: 24px;
+            padding: 40px;
+            color: var(--dark);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 950px) { .glass-card { grid-template-columns: 1fr; } }
+
+        /* INPUT PANEL STYLES */
+        .input-panel h3 { margin-bottom: 20px; font-weight: 700; color: #18181b; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 0.7rem; font-weight: 800; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 14px; border: 1px solid #e4e4e7; border-radius: 12px; font-size: 0.9rem; transition: 0.2s; color: #18181b;
+        }
+        .form-group input:focus { border-color: var(--secondary); outline: none; box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1); }
+
+        .btn-generate {
+            background: var(--dark);
+            color: #fff; border: none; padding: 16px; width: 100%;
+            border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn-generate:hover { transform: translateY(-2px); background: #27272a; }
+
+        /* PREVIEW CANVAS (THE RESUME) */
+        .preview-canvas {
+            background: #fff;
+            padding: 40px;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            position: sticky; top: 40px;
+            height: fit-content;
+        }
+
+        .resume-top { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 2px solid var(--dark); padding-bottom: 20px; }
+        
+        .pfp-box {
+            width: 90px; height: 110px; border: 1px solid #e4e4e7;
+            background: #fafafa; display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        .pfp-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .res-section { margin-bottom: 20px; }
+        .res-label { font-weight: 800; font-size: 0.75rem; text-transform: uppercase; color: var(--secondary); border-bottom: 1px solid #f4f4f5; margin-bottom: 8px; }
+        .res-content { font-size: 0.85rem; line-height: 1.6; color: #3f3f46; white-space: pre-line; }
+
+        /* PRINT CONFIGURATION */
+        @media print {
+            .bg-animation, .btn-back, .input-panel, .btn-generate { display: none !important; }
+            body { background: #fff !important; padding: 0 !important; }
+            .glass-card { display: block !important; padding: 0 !important; box-shadow: none !important; background: transparent !important; }
+            .preview-canvas { border: none !important; padding: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <div class="wrapper">
+        <a href="index.html" class="btn-back">← Back to Platform Hub</a>
+        <div class="auth-banner" id="authBanner">
+            <div id="authStatus">Checking login status...</div>
+            <button id="signOutBtn" onclick="signOutUser()" style="display:none;">Sign Out</button>
+        </div>
+
+        <div class="glass-card">
+            <!-- LEFT PANEL: MANAGEMENT CONTROLS -->
+            <div class="input-panel">
+                <h3>Profile Editor</h3>
+                
+                <div class="form-group">
+                    <label>Profile Image</label>
+                    <input type="file" id="fileIn" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="nameIn" value="Ahmad Fahmi">
+                </div>
+
+                <div class="form-group">
+                    <label>Expertise / Role</label>
+                    <input type="text" id="roleIn" value="Cloud Computing Specialist">
+                </div>
+
+                <div class="form-group">
+                    <label>Executive Bio</label>
+                    <textarea id="bioIn" rows="4">Passionate about serverless architectures and high-availability cloud deployments[cite: 1].</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Experience & Education</label>
+                    <textarea id="expIn" rows="4">UPTM - Computer Science (Cloud Computing)[cite: 1].</textarea>
+                </div>
+
+                <button class="btn-generate" onclick="exportAndSave()">EXPORT & SAVE RESUME</button>
+                <div id="saveStatus" style="margin-top:14px; font-size:0.9rem; color:#52525b;"></div>
+            </div>
+
+            <!-- RIGHT PANEL: REAL-TIME PREVIEW CANVAS -->
+            <div class="preview-canvas">
+                <div class="resume-top">
+                    <div>
+                        <h2 id="nameOut" style="font-size: 1.6rem; letter-spacing: -0.5px;">Ahmad Fahmi</h2>
+                        <p id="roleOut" style="font-size: 0.85rem; color: #71717a; font-weight: 600;">Cloud Computing Specialist</p>
+                    </div>
+                    <div class="pfp-box" id="pfpView">
+                        <span style="font-size: 0.6rem; color: #d4d4d8;">NO IMG</span>
+                    </div>
+                </div>
+
+                <div class="res-section">
+                    <div class="res-label">Summary</div>
+                    <div class="res-content" id="bioOut"></div>
+                </div>
+
+                <div class="res-section">
+                    <div class="res-label">Background</div>
+                    <div class="res-content" id="expOut"></div>
+                </div>
+
+                <div style="margin-top: 40px; font-size: 0.65rem; color: #a1a1aa; border-top: 1px solid #f4f4f5; padding-top: 10px; display: flex; justify-content: space-between;">
+                    <span>ARC2263 ASSESSMENT ASSET</span>
+                    <span>VERIFIED 2026</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // INPUT DATA SYNCHRONIZATION ENGINE
+        let currentImageData = '';
+
+        function sync() {
+            document.getElementById('nameOut').innerText = document.getElementById('nameIn').value;
+            document.getElementById('roleOut').innerText = document.getElementById('roleIn').value;
+            document.getElementById('bioOut').innerText = document.getElementById('bioIn').value;
+            document.getElementById('expOut').innerText = document.getElementById('expIn').value;
+        }
+
+        ['nameIn', 'roleIn', 'bioIn', 'expIn'].forEach(id => {
+            document.getElementById(id).addEventListener('input', sync);
+        });
+
+        document.getElementById('fileIn').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(f) {
+                    currentImageData = f.target.result;
+                    document.getElementById('pfpView').innerHTML = `<img src="${currentImageData}">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function getResumeData(user) {
+            return {
+                uid: user.uid,
+                email: user.email || '',
+                name: document.getElementById('nameIn').value,
+                role: document.getElementById('roleIn').value,
+                bio: document.getElementById('bioIn').value,
+                exp: document.getElementById('expIn').value,
+                imageData: currentImageData || '',
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+        }
+
+        function applyResumeData(data) {
+            if (!data) return;
+            document.getElementById('nameIn').value = data.name || '';
+            document.getElementById('roleIn').value = data.role || '';
+            document.getElementById('bioIn').value = data.bio || '';
+            document.getElementById('expIn').value = data.exp || '';
+            sync();
+            if (data.imageData) {
+                currentImageData = data.imageData;
+                document.getElementById('pfpView').innerHTML = `<img src="${data.imageData}">`;
+            }
+        }
+
+        async function saveResume() {
+            const saveStatus = document.getElementById('saveStatus');
+            saveStatus.innerText = 'Saving...';
+            const user = firebase.auth().currentUser;
+            if (!user) {
+                saveStatus.style.color = '#dc2626';
+                saveStatus.innerText = 'You must be logged in to save.';
+                return false;
+            }
+            try {
+                const resume = getResumeData(user);
+                await firebase.firestore().collection('resumes').doc(user.uid).set(resume);
+                saveStatus.style.color = '#16a34a';
+                saveStatus.innerText = 'Resume saved to Firestore successfully.';
+                return true;
+            } catch (error) {
+                saveStatus.style.color = '#dc2626';
+                saveStatus.innerText = `Save failed: ${error.message}`;
+                return false;
+            }
+        }
+
+        async function exportAndSave() {
+            const saved = await saveResume();
+            if (saved) {
+                window.print();
+            }
+        }
+
+        async function loadResume() {
+            const saveStatus = document.getElementById('saveStatus');
+            const user = firebase.auth().currentUser;
+            if (!user) {
+                saveStatus.innerText = '';
+                return;
+            }
+            try {
+                const doc = await firebase.firestore().collection('resumes').doc(user.uid).get();
+                if (doc.exists) {
+                    applyResumeData(doc.data());
+                    saveStatus.style.color = '#0f766e';
+                    saveStatus.innerText = 'Loaded saved resume from database.';
+                } else {
+                    saveStatus.style.color = '#52525b';
+                    saveStatus.innerText = 'No saved resume found yet.';
+                }
+            } catch (error) {
+                saveStatus.style.color = '#dc2626';
+                saveStatus.innerText = `Load failed: ${error.message}`;
+            }
+        }
+
+        window.addEventListener('load', function() {
+            sync();
+            const authStatus = document.getElementById('authStatus');
+            const signOutBtn = document.getElementById('signOutBtn');
+            const ADMIN_EMAIL = 'admin@gmail.com';
+
+            if (!window.firebaseConfigValid) {
+                authStatus.innerText = 'Firebase config incomplete. Open firebase-config.js and add your web app credentials.';
+                signOutBtn.style.display = 'none';
+                return;
+            }
+
+            if (typeof firebase !== 'undefined' && firebase.auth) {
+                firebase.auth().onAuthStateChanged(user => {
+                    if (user) {
+                        if (user.email === ADMIN_EMAIL) {
+                            authStatus.innerText = 'Admin users access the Admin Dashboard only.';
+                            signOutBtn.style.display = 'none';
+                            setTimeout(() => { window.location.href = 'admin.html'; }, 900);
+                            return;
+                        }
+                        authStatus.innerText = `Signed in as ${user.email}`;
+                        signOutBtn.style.display = 'inline-block';
+                        loadResume();
+                    } else {
+                        authStatus.innerText = 'Not signed in — redirecting to login...';
+                        signOutBtn.style.display = 'none';
+                        setTimeout(() => { window.location.href = 'auth.html'; }, 700);
+                    }
+                });
+            } else {
+                authStatus.innerText = 'Firebase SDK not loaded. Reload the page or check firebase-config.js.';
+                signOutBtn.style.display = 'none';
+            }
+        });
+     </script>
+     <!-- Firebase SDKs (needed for Firebase features) -->
+     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+     <script src="firebase-config.js"></script>
+     <script src="auth.js"></script>
+</body>
+</html>
