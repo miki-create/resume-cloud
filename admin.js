@@ -132,7 +132,7 @@ function initAdminDashboard() {
     setTimeout(() => { window.location.href = 'index.html'; }, 1300);
   }
 
-  function handleUser(user) {
+  async function handleUser(user) {
     if (!user) {
       status.innerText = 'No authenticated user found. Redirecting to login...';
       setTimeout(() => { window.location.href = 'auth.html'; }, 700);
@@ -149,14 +149,22 @@ function initAdminDashboard() {
 
     status.innerHTML = `Signed in as <strong>${escapeHtml(user.email)}</strong>. Admin access granted.`;
 
-    firebase.firestore().collection('admins').doc(user.uid).get().then((doc) => {
+    try {
+      const adminRef = firebase.firestore().collection('admins').doc(user.uid);
+      const doc = await adminRef.get();
       if (!doc.exists) {
-        firebase.firestore().collection('admins').doc(user.uid).set({
+        await adminRef.set({
           email: user.email,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        }).catch((err) => console.warn('Failed to register admin in Firestore:', err));
+        });
+        console.log('Registered admin in Firestore');
       }
-    }).catch((err) => console.warn('Failed to check admin status:', err));
+    } catch (err) {
+      console.warn('Failed to check/register admin status:', err);
+      // Even if registration check fails (e.g. firestore rules didn't allow read), 
+      // we still try to load resumes if the email matched. 
+      // Firestore rules will ultimately decide.
+    }
 
     loadAdminResumes();
   }
