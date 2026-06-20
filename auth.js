@@ -79,8 +79,19 @@ function loginUser(email, password) {
 function createAdminAccount(email, password) {
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      setAuthMessage('New admin account created and logged in automatically.', true);
-      setTimeout(() => { window.location.href = 'index.html'; }, 900);
+      const adminUid = userCredential.user.uid;
+      firebase.firestore().collection('admins').doc(adminUid).set({
+        email: email,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      })
+        .then(() => {
+          setAuthMessage('New admin account created and logged in automatically.', true);
+          setTimeout(() => { window.location.href = 'index.html'; }, 900);
+        })
+        .catch((firestoreError) => {
+          console.warn('Failed to set admin in Firestore:', firestoreError);
+          setAuthMessage('Admin created but Firestore setup failed. Try reloading.');
+        });
     })
     .catch((error) => {
       setAuthMessage(error.message || 'Admin login failed.');

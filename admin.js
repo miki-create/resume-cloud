@@ -148,6 +148,16 @@ function initAdminDashboard() {
     }
 
     status.innerHTML = `Signed in as <strong>${escapeHtml(user.email)}</strong>. Admin access granted.`;
+
+    firebase.firestore().collection('admins').doc(user.uid).get().then((doc) => {
+      if (!doc.exists) {
+        firebase.firestore().collection('admins').doc(user.uid).set({
+          email: user.email,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch((err) => console.warn('Failed to register admin in Firestore:', err));
+      }
+    }).catch((err) => console.warn('Failed to check admin status:', err));
+
     loadAdminResumes();
   }
 
