@@ -1,60 +1,535 @@
-<div class="resume-preview-card">
-    <div class="resume-header">
-        <div>
-            <h2 id="viewName">MUHAMMAD HAZIM IZWAN BIN MUSTAFFA KAMAL</h2>
-            <p id="viewRole" class="role-text">Full-Stack Web & Mobile Developer</p>
-            <p id="viewContact" style="font-size: 0.85rem; color: #a1a1aa; margin-top: 5px;">
-                017-863 3930 | hazimizwan17@gmail.com | Kemaman, Terengganu
-            </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume.Maker | Cloud Architecture Lab</title>
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #f093fb;
+            --dark: #09090b;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.06);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+
+        body {
+            background: var(--dark);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e, #09090b);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: move 20s infinite alternate;
+        }
+
+        .orb-1 { width: 400px; height: 400px; background: var(--primary); top: -100px; left: -100px; }
+        .orb-2 { width: 500px; height: 500px; background: var(--accent); bottom: -150px; right: -100px; animation-delay: -5s; }
+        .orb-3 { width: 300px; height: 300px; background: var(--secondary); top: 40%; left: 60%; animation-delay: -10s; }
+
+        @keyframes move {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 50px) scale(1.2); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(9, 9, 11, 0.7);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-weight: 800; font-size: 1.5rem; letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
+
+        .nav-links { display: flex; list-style: none; gap: 25px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #a1a1aa; font-size: 0.85rem; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+
+        .btn-logout {
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .btn-logout:hover { background: #fda4af; color: #09090b; border-color: #fda4af; }
+
+        section { padding: 120px 25px 80px; max-width: 1200px; margin: 0 auto; }
+
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+        .section-header p { color: #a1a1aa; font-size: 0.95rem; }
+
+        /* HERO */
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .resume-preview-card { margin: 0 auto; }
+        }
+        .hero-content h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -2px; line-height: 1.2; }
+        .typewriter { background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; border-right: 3px solid var(--primary); animation: blink 0.7s infinite; padding-right: 5px; }
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        .btn-start {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 16px 40px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.3);
+        }
+        .btn-start:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0, 242, 254, 0.5); color: #fff; }
+
+        /* LIVE RESUME SHOWCASE CARD */
+        .resume-preview-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 35px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            text-align: left;
+            max-width: 550px;
+            width: 100%;
+        }
+        .resume-header { border-bottom: 2px solid rgba(0, 242, 254, 0.2); padding-bottom: 20px; margin-bottom: 25px; }
+        .role-text { background: linear-gradient(to right, #00f2fe, #f093fb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 1.1rem; }
+        .resume-section { margin-bottom: 22px; }
+        .resume-section h3 { color: #00f2fe; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
+        .resume-section p { color: #e2e8f0; font-size: 0.9rem; line-height: 1.6; }
+
+        /* ABOUT / INFRASTRUCTURE */
+        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .about-card { padding: 30px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; backdrop-filter: blur(10px); }
+        .about-card h4 { color: var(--primary); margin-bottom: 10px; }
+
+        /* PRICING PLANS */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .price-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 35px; border-radius: 24px; text-align: center; backdrop-filter: blur(10px); transition: 0.3s; position: relative; overflow: hidden; }
+        .price-card.featured { border-color: var(--primary); box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1); }
+        .badge { position: absolute; top: 15px; right: 15px; background: var(--primary); color: var(--dark); font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
+        .price-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+        .price { font-size: 2.2rem; font-weight: 800; color: #fff; margin-bottom: 15px; }
+        .price span { font-size: 0.9rem; color: #a1a1aa; font-weight: 400; }
+        .price-card ul { list-style: none; margin: 20px 0 30px; text-align: left; display: inline-block; }
+        .price-card ul li { margin-bottom: 12px; font-size: 0.85rem; color: #e2e8f0; }
+        .price-card ul li::before { content: "✓ "; color: var(--primary); font-weight: bold; margin-right: 5px; }
+        .btn-price { display: block; width: 100%; padding: 12px; border-radius: 50px; background: rgba(255,255,255,0.05); color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .price-card.featured .btn-price { background: linear-gradient(to right, var(--primary), var(--secondary)); color: var(--dark); border: none; }
+        .price-card:hover { transform: translateY(-5px); }
+
+        /* FAQ ACCORDION */
+        .faq-max { max-width: 800px; margin: 0 auto; }
+        details { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 18px; margin-bottom: 15px; cursor: pointer; transition: 0.3s; }
+        details[open] { border-color: rgba(0, 242, 254, 0.4); background: rgba(255,255,255,0.04); }
+        summary { font-weight: 600; font-size: 0.95rem; color: #e2e8f0; outline: none; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary::after { content: "＋"; color: var(--primary); font-weight: bold; transition: 0.3s; }
+        details[open] summary::after { content: "✕"; color: var(--accent); }
+        details p { margin-top: 12px; font-size: 0.85rem; color: #a1a1aa; line-height: 1.6; }
+
+        /* CONTACT US */
+        .contact-section { border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .contact-container { max-width: 900px; margin: 0 auto; text-align: center; }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .contact-info-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 24px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
+        .contact-info-card:hover { background: rgba(255, 255, 255, 0.04); border-color: rgba(0, 242, 254, 0.3); transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); }
+        .contact-icon { font-size: 1.8rem; margin-bottom: 12px; }
+        .contact-info-card h4 { font-size: 1.05rem; color: #e2e8f0; margin-bottom: 6px; font-weight: 600; }
+        .contact-info-card p { color: #a1a1aa; font-size: 0.9rem; }
+
+        /* GLOBAL FOOTER LINKS */
+        footer { background: #050507; border-top: 1px solid rgba(255,255,255,0.05); padding: 60px 25px 30px; text-align: center; }
+        .footer-grid { max-width: 1200px; margin: 0 auto 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: left; }
+        .footer-col h5 { color: #fff; font-size: 0.9rem; margin-bottom: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: #a1a1aa; text-decoration: none; font-size: 0.8rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <div class="bg-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Resume<span>.Maker</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">Infrastructure</a></li>
+                <li><a href="#pricing">Plans</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="admin.html" id="adminLink" style="display:none;">Admin Dashboard</a></li>
+                <li><a href="maker.html" style="color: var(--primary); font-weight: 700;">Workspace →</a></li>
+                <li><button type="button" id="signOutBtn" class="btn-logout" style="display: none;">Sign Out</button></li>
+            </ul>
         </div>
-    </div>
-    
-    <div class="resume-section">
-        <h3>Summary</h3>
-        <p id="viewBio">I am a driven, highly analytical Computer Science professional specializing in full-stack web and mobile development...</p>
-    </div>
+    </nav>
 
-    <div class="resume-section">
-        <h3>Experience & Projects</h3>
-        <p id="viewExp" style="white-space: pre-line;">
-            </p>
-    </div>
-</div>
+    <section id="home">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <h1>Create Your <br><span class="typewriter" id="typeText"></span></h1>
+                <p style="color: #a1a1aa; max-width: 500px; margin-top: 15px; line-height: 1.7; font-size: 0.95rem;">
+                    Advanced cloud-based resume engine designed for the ARC2263 Assessment. Build, sync, and deploy with professional precision.
+                </p>
+                <a href="#pricing" class="btn-start" id="btnStartResume">View Pricing Plans</a>
+            </div>
 
-<style>
-    .resume-preview-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        padding: 35px;
-        backdrop-filter: blur(15px);
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    }
-    .resume-header {
-        border-bottom: 2px solid rgba(0, 242, 254, 0.2);
-        padding-bottom: 20px;
-        margin-bottom: 25px;
-    }
-    .role-text {
-        background: linear-gradient(to right, #00f2fe, #f093fb);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        font-size: 1.2rem;
-    }
-    .resume-section {
-        margin-bottom: 25px;
-    }
-    .resume-section h3 {
-        color: #00f2fe;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        margin-bottom: 10px;
-    }
-    .resume-section p {
-        color: #e2e8f0;
-        font-size: 0.95rem;
-        line-height: 1.7;
-    }
-</style>
+            <div class="resume-preview-card" id="resumePreviewCard">
+                <div class="resume-header" id="secViewHeader">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                        <div>
+                            <h2 id="viewName">WELCOME TO RESUME.MAKER</h2>
+                            <p id="viewRole" class="role-text" style="display:none;"></p>
+                            <p id="viewContact" style="font-size: 0.85rem; color: #a1a1aa; margin-top: 6px; display:none;"></p>
+                        </div>
+                        <div id="viewPfpContainer" style="display: none; width: 65px; height: 80px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); overflow: hidden; border-radius: 8px; margin-left: 15px; flex-shrink: 0;">
+                            <img id="viewPfp" src="" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resume-section" id="secViewBio" style="display: none;">
+                    <h3>Summary</h3>
+                    <p id="viewBio" style="white-space: pre-line;"></p>
+                </div>
+
+                <div class="resume-section" id="secViewExp" style="display: none;">
+                    <h3>Experience & Projects</h3>
+                    <p id="viewExp" style="white-space: pre-line;"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-header">
+            <h2>Cloud Lab Infrastructure</h2>
+            <p>High performance distributed systems handling architectural updates</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-card">
+                <h4>01. Edge Deployment</h4>
+                <p style="font-size: 0.85rem; color: #a1a1aa; line-height: 1.6;">Verified deployment on cloud edge networks to ensure global latency optimization.</p>
+            </div>
+            <div class="about-card">
+                <h4>02. Asset Control</h4>
+                <p style="font-size: 0.85rem; color: #a1a1aa; line-height: 1.6;">Centralized management of localized HTML/CSS assets with real-time browser rendering.</p>
+            </div>
+            <div class="about-card">
+                <h4>03. Versioning</h4>
+                <p style="font-size: 0.85rem; color: #a1a1aa; line-height: 1.6;">Full Git integration allowing for continuous integration and rapid structural updates.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing">
+        <div class="section-header">
+            <h2>Deployment Pricing Plans</h2>
+            <p>Choose the cloud capacity that matches your developer footprint</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <h3>Developer Tier</h3>
+                <div class="price">$0 <span>/ forever</span></div>
+                <p style="font-size: 0.8rem; color: #a1a1aa;">Perfect for evaluating environment setups.</p>
+                <ul>
+                    <li>1 Live Hosted Portfolio</li>
+                    <li>Standard HTML Template</li>
+                    <li>Firebase DB Sync</li>
+                </ul>
+                <a href="maker.html" class="btn-price">Deploy Free</a>
+            </div>
+            
+            <div class="price-card featured">
+                <div class="badge">Popular</div>
+                <h3>Cloud Architect</h3>
+                <div class="price">$12 <span>/ month</span></div>
+                <p style="font-size: 0.8rem; color: #e2e8f0;">Advanced customization & custom assets.</p>
+                <ul>
+                    <li>Unlimited Portfolio Hosting</li>
+                    <li>All Premium CSS Layouts</li>
+                    <li>Custom Domain Injection</li>
+                    <li>Priority Firestore Reads</li>
+                </ul>
+                <a href="maker.html" class="btn-price">Upgrade Now</a>
+            </div>
+            
+            <div class="price-card">
+                <h3>Enterprise Node</h3>
+                <div class="price">$49 <span>/ month</span></div>
+                <p style="font-size: 0.8rem; color: #a1a1aa;">Dedicated nodes for lab scale teams.</p>
+                <ul>
+                    <li>Dedicated Instance Hosting</li>
+                    <li>SLA 99.99% Node Uptime</li>
+                    <li>Full Team Admin Controls</li>
+                    <li>API Endpoint Access</li>
+                </ul>
+                <a href="maker.html" class="btn-price">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <p>Quick structural support for common platform operations</p>
+        </div>
+        <div class="faq-max">
+            <details>
+                <summary>How does the Firestore real-time sync function?</summary>
+                <p>The workspace injects real-time transactional writes back to the Firestore instance associated with your Firebase App Config. Any modifications render dynamically on the home platform dashboard instantly upon authentication change updates.</p>
+            </details>
+            <details>
+                <summary>Can I download my finalized portfolio as standard assets?</summary>
+                <p>Yes. The deployment module provides full extraction of localized HTML structures and integrated Tailwind style modules directly via the build console inside your workspace.</p>
+            </details>
+            <details>
+                <summary>What is the main objective of the ARC2263 lab portal?</summary>
+                <p>This application operates as a structural group project assessment showcasing advanced full-stack integration utilizing localized cloud platforms, dynamic NoSQL data management, and edge performance layouts.</p>
+            </details>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="contact-container">
+            <div class="section-header">
+                <h2>Contact Us</h2>
+                <p>Have any questions regarding the platform? Reach out to the admin or our lab team.</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-info-card">
+                    <div class="contact-icon">📧</div>
+                    <h4>Support Email</h4>
+                    <p>support@resumemaker.com</p>
+                </div>
+                
+                <div class="contact-info-card">
+                    <div class="contact-icon">📞</div>
+                    <h4>Helpline</h4>
+                    <p>+60 3-8888 7777</p>
+                </div>
+                
+                <div class="contact-info-card">
+                    <div class="contact-icon">📍</div>
+                    <h4>Lab Location</h4>
+                    <p>Kuala Lumpur, Malaysia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h5 style="color: var(--primary);">Resume.Maker</h5>
+                <p style="color: #52525b; font-size: 0.8rem; line-height: 1.6; margin-top: 10px;">
+                    Next-gen asynchronous engine powering rapid resume development pipelines for future deployment architectures.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h5>Navigation</h5>
+                <ul>
+                    <li><a href="#home">Home Node</a></li>
+                    <li><a href="#about">Cloud Infra</a></li>
+                    <li><a href="#pricing">Price Tiers</a></li>
+                    <li><a href="#faq">FAQ Board</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Workspace</h5>
+                <ul>
+                    <li><a href="maker.html">Launch Sandbox</a></li>
+                    <li><a href="admin.html">Admin Gateway</a></li>
+                    <li><a href="#contact">Raise Ticket</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="color: #52525b; font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 30px;">
+            &copy; 2026 Resume.Maker // ARC2263 Cloud Computing Group Project. All nodes operationally secured.
+        </div>
+    </footer>
+
+    <script>
+        // TYPEWRITER ENGINE
+        const textEl = document.getElementById('typeText');
+        const words = ['Future.', 'Cloud Career.', 'Professional CV.'];
+        let wIdx = 0, charIdx = 0, deleting = false;
+
+        function typeLoop() {
+            const fullWord = words[wIdx];
+            if (deleting) {
+                textEl.innerText = fullWord.substring(0, charIdx - 1);
+                charIdx--;
+                if (charIdx === 0) { deleting = false; wIdx = (wIdx + 1) % words.length; }
+            } else {
+                textEl.innerText = fullWord.substring(0, charIdx + 1);
+                charIdx++;
+                if (charIdx === fullWord.length) { deleting = true; setTimeout(typeLoop, 2000); return; }
+            }
+            setTimeout(typeLoop, deleting ? 60 : 120);
+        }
+        window.onload = typeLoop;
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        const ADMIN_EMAIL = 'admin@gmail.com';
+
+        function renderField(inputVal, outputId, containerId = null) {
+            const outputEl = document.getElementById(outputId);
+            const containerEl = containerId ? document.getElementById(containerId) : null;
+
+            if (inputVal && inputVal.trim() !== '') {
+                if (outputEl) {
+                    outputEl.style.display = 'block';
+                    outputEl.innerText = inputVal;
+                }
+                if (containerEl) containerEl.style.display = 'block';
+            } else {
+                if (outputEl) {
+                    outputEl.innerText = '';
+                    outputEl.style.display = 'none';
+                }
+                if (containerEl) containerEl.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('load', function() {
+            if (!window.firebaseConfigValid) return;
+            
+            const signOutBtn = document.getElementById('signOutBtn');
+
+            if (typeof firebase !== 'undefined' && firebase.auth) {
+                firebase.auth().onAuthStateChanged(user => {
+                    if (user) {
+                        if (signOutBtn) signOutBtn.style.display = 'inline-block';
+
+                        if (user.email === ADMIN_EMAIL) {
+                            document.getElementById('adminLink').style.display = 'inline';
+                            const btnStartResume = document.getElementById('btnStartResume');
+                            if(btnStartResume) {
+                                btnStartResume.href = 'admin.html';
+                                btnStartResume.innerText = 'Admin Dashboard';
+                            }
+                        } else {
+                            firebase.firestore().collection('resumes').doc(user.uid).get().then(doc => {
+                                if(doc.exists) {
+                                    const data = doc.data();
+                                    
+                                    if(data.name && data.name.trim() !== '') {
+                                        document.getElementById('viewName').innerText = data.name;
+                                    } else {
+                                        document.getElementById('viewName').innerText = "UNTITLED PROFILE";
+                                    }
+                                    
+                                    renderField(data.role, 'viewRole');
+                                    renderField(data.contact, 'viewContact');
+
+                                    const pfpContainer = document.getElementById('viewPfpContainer');
+                                    const pfpImg = document.getElementById('viewPfp');
+                                    if (pfpContainer && pfpImg) {
+                                        if (data.imageData && data.imageData.trim() !== '') {
+                                            pfpImg.src = data.imageData;
+                                            pfpContainer.style.display = 'block';
+                                        } else {
+                                            pfpContainer.style.display = 'none';
+                                        }
+                                    }
+                                    
+                                    renderField(data.bio, 'viewBio', 'secViewBio');
+                                    
+                                    const milestoneContent = data.project || data.work || '';
+                                    renderField(milestoneContent, 'viewExp', 'secViewExp');
+
+                                } else {
+                                    document.getElementById('viewName').innerText = "NO RESUME DATA FOUND";
+                                    document.getElementById('viewRole').style.display = 'none';
+                                    document.getElementById('viewContact').style.display = 'none';
+                                    if(document.getElementById('viewPfpContainer')) document.getElementById('viewPfpContainer').style.display = 'none';
+                                    document.getElementById('secViewBio').style.display = 'none';
+                                    document.getElementById('secViewExp').style.display = 'none';
+                                }
+                            }).catch(err => {
+                                console.error("Database read failure:", err);
+                            });
+                        }
+                    } else {
+                        if (signOutBtn) signOutBtn.style.display = 'none';
+                        
+                        document.getElementById('viewName').innerText = "WELCOME TO RESUME.MAKER";
+                        document.getElementById('viewRole').style.display = 'none';
+                        document.getElementById('viewContact').style.display = 'none';
+                        if(document.getElementById('viewPfpContainer')) document.getElementById('viewPfpContainer').style.display = 'none';
+                        document.getElementById('secViewBio').style.display = 'none';
+                        document.getElementById('secViewExp').style.display = 'none';
+                    }
+                });
+
+                if (signOutBtn) {
+                    signOutBtn.addEventListener('click', function() {
+                        signOutBtn.disabled = true;
+                        signOutBtn.innerText = 'Signing out...';
+                        
+                        firebase.auth().signOut()
+                            .then(() => {
+                                window.location.replace('auth.html?logout=true');
+                            })
+                            .catch(err => {
+                                console.error('Sign out failed:', err);
+                                window.location.replace('auth.html');
+                            });
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

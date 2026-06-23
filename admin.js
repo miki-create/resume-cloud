@@ -58,18 +58,56 @@ function renderResumes(resumes) {
         <td>${resume.role ? escapeHtml(resume.role) : '-'}</td>
         <td>${escapeHtml(formatTimestamp(resume.updatedAt))}</td>
         <td>${resume.bio ? escapeHtml(resume.bio).replace(/\n/g, '<br>') : '-'}</td>
-        <td><button type="button" class="btn btn-muted" data-index="${index}">View PDF</button></td>
+        <td>
+          <div class="action-cell">
+            <button type="button" class="btn btn-muted btn-view" data-index="${index}">View PDF</button>
+            <button type="button" class="btn-danger" data-id="${resume.id}">Delete</button>
+          </div>
+        </td>
       </tr>`;
   });
 
   container.innerHTML = html;
+
+  // Event Listener untuk View PDF
   container.querySelectorAll('button[data-index]').forEach((button) => {
     button.addEventListener('click', (event) => {
       const index = parseInt(event.currentTarget.getAttribute('data-index'), 10);
       openResumePdf(resumes[index]);
     });
   });
+
+  // Event Listener untuk Delete
+  container.querySelectorAll('button[data-id]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const docId = event.currentTarget.getAttribute('data-id');
+      deleteResume(docId);
+    });
+  });
 }
+
+// FUNGSI UTK PADAM RESUME DARIPADA FIRESTORE
+async function deleteResume(docId) {
+  if (!docId) return;
+
+  const sahkan = confirm("Adakah anda pasti mahu memadam resume ini secara kekal daripada pangkalan data?");
+  if (!sahkan) return;
+
+  const status = document.getElementById('adminStatus');
+  try {
+    status.innerHTML = `<em>Memadam resume...</em>`;
+    await firebase.firestore().collection('resumes').doc(docId).delete();
+    
+    // Muat semula senarai selepas berjaya padam
+    loadAdminResumes();
+  } catch (error) {
+    console.error("Gagal memadam resume:", error);
+    alert(`Gagal memadam data: ${error.message}`);
+    loadAdminResumes(); // Set semula paparan status asal
+  }
+}
+
+window.deleteResume = deleteResume;
 
 function openResumePdf(resume) {
   if (!resume) {
@@ -100,7 +138,12 @@ async function loadAdminResumes() {
   try {
     const query = await firebase.firestore().collection('resumes').get();
     const resumes = [];
-    query.forEach((doc) => resumes.push(doc.data()));
+    query.forEach((doc) => {
+      // Kita masukkan id dokumen (UID user) sekali ke dalam objek data resume
+      const data = doc.data();
+      data.id = doc.id; 
+      resumes.push(data);
+    });
     renderResumes(resumes);
     status.innerHTML = `<strong>Access granted.</strong> Showing ${resumes.length} saved resume${resumes.length === 1 ? '' : 's'}.`;
   } catch (error) {
@@ -161,9 +204,6 @@ function initAdminDashboard() {
       }
     } catch (err) {
       console.warn('Failed to check/register admin status:', err);
-      // Even if registration check fails (e.g. firestore rules didn't allow read), 
-      // we still try to load resumes if the email matched. 
-      // Firestore rules will ultimately decide.
     }
 
     loadAdminResumes();
@@ -180,4 +220,3 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   initAdminDashboard();
 });
-

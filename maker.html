@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* ORB ANIMATION BACKGROUND (Dikekalkan untuk konsistensi reka bentuk) */
         .bg-animation {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -36,7 +35,7 @@
 
         @keyframes move { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 50px); } }
 
-        .wrapper { max-width: 1200px; margin: 0 auto; }
+        .wrapper { max-width: 1300px; margin: 0 auto; }
 
         .btn-back {
             display: inline-block;
@@ -70,10 +69,8 @@
             cursor: pointer;
             transition: 0.2s;
         }
-
         .auth-banner button:hover { background: rgba(255,255,255,0.1); }
 
-        /* MAKER GRID LAYOUT */
         .glass-card {
             background: var(--glass);
             border-radius: 24px;
@@ -81,57 +78,64 @@
             color: var(--dark);
             box-shadow: 0 40px 100px rgba(0,0,0,0.5);
             display: grid;
-            grid-template-columns: 1fr 1.3fr;
+            grid-template-columns: 1.1fr 0.9fr;
             gap: 40px;
         }
 
-        @media (max-width: 950px) { .glass-card { grid-template-columns: 1fr; } }
+        @media (max-width: 1050px) { .glass-card { grid-template-columns: 1fr; } }
 
         /* INPUT PANEL STYLES */
-        .input-panel h3 { margin-bottom: 20px; font-weight: 700; color: #18181b; }
-        .form-group { margin-bottom: 18px; }
+        .input-panel { height: 85vh; overflow-y: auto; padding-right: 15px; }
+        .input-panel::-webkit-scrollbar { width: 6px; }
+        .input-panel::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        .input-panel h3 { margin-bottom: 20px; font-weight: 700; color: #18181b; border-bottom: 2px solid #e4e4e7; padding-bottom: 10px; }
+        .seksyen-title { font-size: 1rem; font-weight: 700; color: var(--secondary); margin: 25px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 0.7rem; font-weight: 800; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
         .form-group input, .form-group textarea {
-            width: 100%; padding: 14px; border: 1px solid #e4e4e7; border-radius: 12px; font-size: 0.9rem; transition: 0.2s; color: #18181b;
+            width: 100%; padding: 12px 14px; border: 1px solid #e4e4e7; border-radius: 12px; font-size: 0.9rem; transition: 0.2s; color: #18181b; font-family: inherit;
         }
-        .form-group input:focus { border-color: var(--secondary); outline: none; box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1); }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--secondary); outline: none; box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1); }
 
         .btn-generate {
             background: var(--dark);
             color: #fff; border: none; padding: 16px; width: 100%;
             border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s;
-            margin-top: 10px;
+            margin-top: 20px; position: sticky; bottom: 0; box-shadow: 0 -10px 20px rgba(255,255,255,0.9);
         }
         .btn-generate:hover { transform: translateY(-2px); background: #27272a; }
 
-        /* PREVIEW CANVAS (THE RESUME) */
+        /* PREVIEW CANVAS */
         .preview-canvas {
             background: #fff;
             padding: 40px;
             border: 1px solid #e4e4e7;
-            border-radius: 8px;
-            position: sticky; top: 40px;
+            border-radius: 12px;
+            position: sticky; top: 20px;
             height: fit-content;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        .resume-top { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 2px solid var(--dark); padding-bottom: 20px; }
-        
+        .resume-top { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 2px solid var(--dark); padding-bottom: 15px; }
         .pfp-box {
-            width: 90px; height: 110px; border: 1px solid #e4e4e7;
+            width: 85px; height: 105px; border: 1px solid #e4e4e7;
             background: #fafafa; display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
         .pfp-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        .res-section { margin-bottom: 20px; }
-        .res-label { font-weight: 800; font-size: 0.75rem; text-transform: uppercase; color: var(--secondary); border-bottom: 1px solid #f4f4f5; margin-bottom: 8px; }
-        .res-content { font-size: 0.85rem; line-height: 1.6; color: #3f3f46; white-space: pre-line; }
+        .res-section { margin-bottom: 22px; }
+        .res-label { font-weight: 800; font-size: 0.8rem; text-transform: uppercase; color: var(--secondary); border-bottom: 1px solid #e4e4e7; margin-bottom: 10px; padding-bottom: 2px; letter-spacing: 0.5px; }
+        .res-content { font-size: 0.85rem; line-height: 1.6; color: #27272a; white-space: pre-line; }
 
-        /* PRINT CONFIGURATION */
         @media print {
-            .bg-animation, .btn-back, .input-panel, .btn-generate { display: none !important; }
+            .bg-animation, .btn-back, .input-panel, .btn-generate, .auth-banner, .input-panel::-webkit-scrollbar { display: none !important; }
             body { background: #fff !important; padding: 0 !important; }
             .glass-card { display: block !important; padding: 0 !important; box-shadow: none !important; background: transparent !important; }
-            .preview-canvas { border: none !important; padding: 0 !important; }
+            .preview-canvas { border: none !important; padding: 0 !important; max-height: none !important; overflow: visible !important; }
         }
     </style>
 </head>
@@ -150,84 +154,138 @@
         </div>
 
         <div class="glass-card">
-            <!-- LEFT PANEL: MANAGEMENT CONTROLS -->
             <div class="input-panel">
                 <h3>Profile Editor</h3>
                 
+                <div class="seksyen-title">Basic Information</div>
                 <div class="form-group">
                     <label>Profile Image</label>
                     <input type="file" id="fileIn" accept="image/*">
                 </div>
-
                 <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" id="nameIn" value="Ahmad Fahmi">
+                    <input type="text" id="nameIn" placeholder="e.g. Your Full Name">
                 </div>
-
                 <div class="form-group">
                     <label>Expertise / Role</label>
-                    <input type="text" id="roleIn" value="Cloud Computing Specialist">
+                    <input type="text" id="roleIn" placeholder="e.g. Your Professional Field / Role">
+                </div>
+                <div class="form-group">
+                    <label>Contact Info (Phone, Email, Location)</label>
+                    <input type="text" id="contactIn" placeholder="e.g. Phone Number | Email Address | Location">
+                </div>
+                <div class="form-group">
+                    <label>Executive Summary / Strength</label>
+                    <textarea id="bioIn" rows="4" placeholder="Brief introduction about your professional background, core strengths, and goals..."></textarea>
                 </div>
 
+                <div class="seksyen-title">Education</div>
                 <div class="form-group">
-                    <label>Executive Bio</label>
-                    <textarea id="bioIn" rows="4">Passionate about serverless architectures and high-availability cloud deployments[cite: 1].</textarea>
+                    <label>Education Details</label>
+                    <textarea id="eduIn" rows="4" placeholder="• Institution Name (Timeline)&#10;  - Course / Degree Level&#10;  - Grade / Core Achievements"></textarea>
                 </div>
 
+                <div class="seksyen-title">Project Experience</div>
                 <div class="form-group">
-                    <label>Experience & Education</label>
-                    <textarea id="expIn" rows="4">UPTM - Computer Science (Cloud Computing)[cite: 1].</textarea>
+                    <label>Projects & Systems Built</label>
+                    <textarea id="projectIn" rows="5" placeholder="• Project Title (Timeline)&#10;  - Brief description of what you built&#10;  - Tech Stack used / Core systems implemented"></textarea>
+                </div>
+
+                <div class="seksyen-title">Work Experience</div>
+                <div class="form-group">
+                    <label>Employment History</label>
+                    <textarea id="workIn" rows="5" placeholder="• Job Role at Company Name (Timeline)&#10;  - Core responsibilities&#10;  - Key contributions and milestones"></textarea>
+                </div>
+
+                <div class="seksyen-title">Competency & Soft Skills</div>
+                <div class="form-group">
+                    <label>Technical & Soft Skills</label>
+                    <textarea id="skillsIn" rows="4" placeholder="Technical Skills: Hard skills, core tools...&#10;Soft Skills: Workplace abilities, professional skills..."></textarea>
+                </div>
+
+                <div class="seksyen-title">Languages</div>
+                <div class="form-group">
+                    <label>Languages Spoken</label>
+                    <input type="text" id="langIn" placeholder="e.g. Language 1 (Native), Language 2 (Professional Proficiency)">
+
                 </div>
 
                 <button class="btn-generate" onclick="exportAndSave()">EXPORT & SAVE RESUME</button>
-                <div id="saveStatus" style="margin-top:14px; font-size:0.9rem; color:#52525b;"></div>
+                <div id="saveStatus" style="margin-top:14px; font-size:0.9rem; color:#52525b; text-align: center;"></div>
             </div>
 
-            <!-- RIGHT PANEL: REAL-TIME PREVIEW CANVAS -->
             <div class="preview-canvas">
                 <div class="resume-top">
                     <div>
-                        <h2 id="nameOut" style="font-size: 1.6rem; letter-spacing: -0.5px;">Ahmad Fahmi</h2>
-                        <p id="roleOut" style="font-size: 0.85rem; color: #71717a; font-weight: 600;">Cloud Computing Specialist</p>
+                        <h2 id="nameOut" style="font-size: 1.3rem; letter-spacing: -0.5px; color: #09090b; text-transform: uppercase;">YOUR FULL NAME</h2>
+                        <p id="roleOut" style="font-size: 0.85rem; color: #4facfe; font-weight: 600; margin-top: 4px;">Your Professional Role</p>
+                        <p id="contactOut" style="font-size: 0.75rem; color: #71717a; margin-top: 4px;">Your Contact Details</p>
                     </div>
                     <div class="pfp-box" id="pfpView">
                         <span style="font-size: 0.6rem; color: #d4d4d8;">NO IMG</span>
                     </div>
                 </div>
 
-                <div class="res-section">
-                    <div class="res-label">Summary</div>
-                    <div class="res-content" id="bioOut"></div>
+                <div class="res-section" id="secBio">
+                    <div class="res-label">Strength / Summary</div>
+                    <div class="res-content" id="bioOut">Your professional summary and profile highlights will appear here...</div>
                 </div>
 
-                <div class="res-section">
-                    <div class="res-label">Background</div>
-                    <div class="res-content" id="expOut"></div>
+                <div class="res-section" id="secEdu">
+                    <div class="res-label">Education</div>
+                    <div class="res-content" id="eduOut">Your academic background and credentials will appear here...</div>
                 </div>
 
-                <div style="margin-top: 40px; font-size: 0.65rem; color: #a1a1aa; border-top: 1px solid #f4f4f5; padding-top: 10px; display: flex; justify-content: space-between;">
-                    <span>ARC2263 ASSESSMENT ASSET</span>
-                    <span>VERIFIED 2026</span>
+                <div class="res-section" id="secProject">
+                    <div class="res-label">Project Experience</div>
+                    <div class="res-content" id="projectOut">Your key systems, applications, or project works will appear here...</div>
+                </div>
+
+                <div class="res-section" id="secWork">
+                    <div class="res-label">Work Experience</div>
+                    <div class="res-content" id="workOut">Your previous employment, internships, or professional history will appear here...</div>
+                </div>
+
+                <div class="res-section" id="secSkills">
+                    <div class="res-label">Competency & Soft Skills</div>
+                    <div class="res-content" id="skillsOut">Your technical proficiencies and key soft attributes will appear here...</div>
+                </div>
+
+                <div class="res-section" id="secLang">
+                    <div class="res-label">Languages</div>
+                    <div class="res-content" id="langOut">Your language competencies will appear here...</div>
+                </div>
+
+                <div style="margin-top: 35px; font-size: 0.65rem; color: #a1a1aa; border-top: 1px solid #f4f4f5; padding-top: 10px; display: flex; justify-content: space-between;">
+                    <span>PLATFORM ASSESSMENT ASSET</span>
+                    <span>SYSTEM SECURE VERIFIED</span>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // INPUT DATA SYNCHRONIZATION ENGINE
         let currentImageData = '';
 
+        // ENGINE LIVE SYNCHRONIZATION
         function sync() {
-            document.getElementById('nameOut').innerText = document.getElementById('nameIn').value;
-            document.getElementById('roleOut').innerText = document.getElementById('roleIn').value;
-            document.getElementById('bioOut').innerText = document.getElementById('bioIn').value;
-            document.getElementById('expOut').innerText = document.getElementById('expIn').value;
+            document.getElementById('nameOut').innerText = document.getElementById('nameIn').value || 'YOUR FULL NAME';
+            document.getElementById('roleOut').innerText = document.getElementById('roleIn').value || 'Your Professional Role';
+            document.getElementById('contactOut').innerText = document.getElementById('contactIn').value || 'Your Contact Details';
+            document.getElementById('bioOut').innerText = document.getElementById('bioIn').value || 'Your professional summary and profile highlights will appear here...';
+            document.getElementById('eduOut').innerText = document.getElementById('eduIn').value || 'Your academic background and credentials will appear here...';
+            document.getElementById('projectOut').innerText = document.getElementById('projectIn').value || 'Your key systems, applications, or project works will appear here...';
+            document.getElementById('workOut').innerText = document.getElementById('workIn').value || 'Your previous employment, internships, or professional history will appear here...';
+            document.getElementById('skillsOut').innerText = document.getElementById('skillsIn').value || 'Your technical proficiencies and key soft attributes will appear here...';
+            document.getElementById('langOut').innerText = document.getElementById('langIn').value || 'Your language competencies will appear here...';
         }
 
-        ['nameIn', 'roleIn', 'bioIn', 'expIn'].forEach(id => {
+        const inputs = ['nameIn', 'roleIn', 'contactIn', 'bioIn', 'eduIn', 'projectIn', 'workIn', 'skillsIn', 'langIn'];
+        inputs.forEach(id => {
             document.getElementById(id).addEventListener('input', sync);
         });
 
+        // HANDLE IMAGE PREVIEW
         document.getElementById('fileIn').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -240,25 +298,37 @@
             }
         });
 
+        // DATA RETRIEVAL FOR FIRESTORE
         function getResumeData(user) {
             return {
                 uid: user.uid,
                 email: user.email || '',
                 name: document.getElementById('nameIn').value,
                 role: document.getElementById('roleIn').value,
+                contact: document.getElementById('contactIn').value,
                 bio: document.getElementById('bioIn').value,
-                exp: document.getElementById('expIn').value,
+                edu: document.getElementById('eduIn').value,
+                project: document.getElementById('projectIn').value,
+                work: document.getElementById('workIn').value,
+                skills: document.getElementById('skillsIn').value,
+                lang: document.getElementById('langIn').value,
                 imageData: currentImageData || '',
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             };
         }
 
+        // DATA APPLICATION FROM FIRESTORE
         function applyResumeData(data) {
             if (!data) return;
             document.getElementById('nameIn').value = data.name || '';
             document.getElementById('roleIn').value = data.role || '';
+            document.getElementById('contactIn').value = data.contact || '';
             document.getElementById('bioIn').value = data.bio || '';
-            document.getElementById('expIn').value = data.exp || '';
+            document.getElementById('eduIn').value = data.edu || '';
+            document.getElementById('projectIn').value = data.project || '';
+            document.getElementById('workIn').value = data.work || '';
+            document.getElementById('skillsIn').value = data.skills || '';
+            document.getElementById('langIn').value = data.lang || '';
             sync();
             if (data.imageData) {
                 currentImageData = data.imageData;
@@ -268,22 +338,22 @@
 
         async function saveResume() {
             const saveStatus = document.getElementById('saveStatus');
-            saveStatus.innerText = 'Saving...';
+            saveStatus.innerText = 'Saving profile workspace...';
             const user = firebase.auth().currentUser;
             if (!user) {
                 saveStatus.style.color = '#dc2626';
-                saveStatus.innerText = 'You must be logged in to save.';
+                saveStatus.innerText = 'Authentication error. Please login again.';
                 return false;
             }
             try {
                 const resume = getResumeData(user);
                 await firebase.firestore().collection('resumes').doc(user.uid).set(resume);
                 saveStatus.style.color = '#16a34a';
-                saveStatus.innerText = 'Resume saved to Firestore successfully.';
+                saveStatus.innerText = 'Workspace successfully saved to secure Firestore database.';
                 return true;
             } catch (error) {
                 saveStatus.style.color = '#dc2626';
-                saveStatus.innerText = `Save failed: ${error.message}`;
+                saveStatus.innerText = `Database Error: ${error.message}`;
                 return false;
             }
         }
@@ -298,23 +368,20 @@
         async function loadResume() {
             const saveStatus = document.getElementById('saveStatus');
             const user = firebase.auth().currentUser;
-            if (!user) {
-                saveStatus.innerText = '';
-                return;
-            }
+            if (!user) return;
             try {
                 const doc = await firebase.firestore().collection('resumes').doc(user.uid).get();
                 if (doc.exists) {
                     applyResumeData(doc.data());
                     saveStatus.style.color = '#0f766e';
-                    saveStatus.innerText = 'Loaded saved resume from database.';
+                    saveStatus.innerText = 'Existing workspace state synchronized from database.';
                 } else {
-                    saveStatus.style.color = '#52525b';
-                    saveStatus.innerText = 'No saved resume found yet.';
+                    saveStatus.style.color = '#71717a';
+                    saveStatus.innerText = 'Empty workspace initialization complete. Ready for data entry.';
                 }
             } catch (error) {
                 saveStatus.style.color = '#dc2626';
-                saveStatus.innerText = `Load failed: ${error.message}`;
+                saveStatus.innerText = `Initialization Failed: ${error.message}`;
             }
         }
 
@@ -325,8 +392,7 @@
             const ADMIN_EMAIL = 'admin@gmail.com';
 
             if (!window.firebaseConfigValid) {
-                authStatus.innerText = 'Firebase config incomplete. Open firebase-config.js and add your web app credentials.';
-                signOutBtn.style.display = 'none';
+                authStatus.innerText = 'System Configuration Error: Check firebase-config.js';
                 return;
             }
 
@@ -334,27 +400,21 @@
                 firebase.auth().onAuthStateChanged(user => {
                     if (user) {
                         if (user.email === ADMIN_EMAIL) {
-                            authStatus.innerText = 'Admin users access the Admin Dashboard only.';
-                            signOutBtn.style.display = 'none';
-                            setTimeout(() => { window.location.href = 'admin.html'; }, 900);
+                            authStatus.innerText = 'Redirecting to Admin Infrastructure...';
+                            setTimeout(() => { window.location.href = 'admin.html'; }, 800);
                             return;
                         }
-                        authStatus.innerText = `Signed in as ${user.email}`;
+                        authStatus.innerText = `Workspace Secure Node: ${user.email}`;
                         signOutBtn.style.display = 'inline-block';
                         loadResume();
                     } else {
-                        authStatus.innerText = 'Not signed in — redirecting to login...';
-                        signOutBtn.style.display = 'none';
+                        authStatus.innerText = 'Unauthorized node. Re-routing to entry portal...';
                         setTimeout(() => { window.location.href = 'auth.html'; }, 700);
                     }
                 });
-            } else {
-                authStatus.innerText = 'Firebase SDK not loaded. Reload the page or check firebase-config.js.';
-                signOutBtn.style.display = 'none';
             }
         });
      </script>
-     <!-- Firebase SDKs (needed for Firebase features) -->
      <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
      <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
      <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>

@@ -10,6 +10,7 @@
             --secondary: #4facfe;
             --text: #e2e8f0;
             --surface: rgba(255,255,255,0.06);
+            --danger: #f43f5e;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { min-height: 100vh; background: #070b14; color: var(--text); padding: 28px; }
@@ -17,19 +18,45 @@
         .header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 26px; }
         .header-title { font-size: 2rem; font-weight: 800; }
         .subtext { color: #94a3b8; margin-top: 6px; }
-        .toolbar { display: flex; gap: 12px; flex-wrap: wrap; }
+        .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
         .btn { padding: 12px 20px; border-radius: 14px; border: none; cursor: pointer; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #09090b; }
-        .btn-muted { background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid rgba(255,255,255,0.14); }
+        .btn-muted { background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid rgba(255,255,255,0.14); transition: 0.3s; }
+        .btn-muted:hover { background: rgba(255,255,255,0.15); }
+        
+        /* GAYA BUTANG DELETE */
+        .btn-danger {
+            background: rgba(244, 63, 94, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-danger:hover {
+            background: var(--danger);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.2);
+        }
+        .btn-view {
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+
         .status { padding: 18px 20px; border-radius: 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); margin-bottom: 24px; }
-        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 22px; padding: 24px; }
+        .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 22px; padding: 24px; }
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 860px; }
         th, td { padding: 16px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
         th { color: #94a3b8; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; }
         td { font-size: 0.95rem; color: var(--text); }
         .empty-state { text-align: center; padding: 48px 0; color: #94a3b8; }
-        .back-link { color: #a5b4fc; text-decoration: none; }
+        .back-link { color: #a5b4fc; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: 0.3s; }
         .back-link:hover { color: #fff; }
+        .action-cell { display: flex; gap: 8px; align-items: center; }
         @media (max-width: 840px) { .header { flex-direction: column; align-items: flex-start; } }
     </style>
 </head>
@@ -42,7 +69,7 @@
             </div>
             <div class="toolbar">
                 <a class="back-link" href="index.html">← Back to Platform</a>
-                <button type="button" class="btn btn-muted" id="signOutBtn" onclick="signOutUser()">Sign Out</button>
+                <button type="button" class="btn btn-muted" id="signOutBtn">Sign Out</button>
             </div>
         </div>
 
